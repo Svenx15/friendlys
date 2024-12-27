@@ -9,7 +9,8 @@ document.getElementById("requestForm").onsubmit = function(e) {
         teamName,
         ageGroup,
         skillLevel,
-        matchDate
+        matchDate,
+        responses: []  // Neu: Antworten speichern
     };
 
     // Anfrage speichern (lokal)
@@ -31,12 +32,36 @@ function displayRequests() {
     requests.forEach((request, index) => {
         list.innerHTML += `
             <div class="request-item">
-                <h3>${request.teamName} ( ${request.ageGroup} - ${request.skillLevel} )</h3>
+                <h3>${request.teamName} (${request.ageGroup} - ${request.skillLevel})</h3>
                 <p>Datum: ${request.matchDate}</p>
-                <button onclick="respondToRequest(${index})">Antworten</button>
+
+                <!-- Antworten anzeigen -->
+                <div class="responses">
+                    ${request.responses.map(response => `<p><strong>${response}</strong></p>`).join("")}
+                </div>
+
+                <!-- Antwortformular -->
+                <form onsubmit="respondToRequest(event, ${index})">
+                    <input type="text" placeholder="Dein Teamname" required id="response-${index}">
+                    <button type="submit">Antworten</button>
+                </form>
             </div>
         `;
     });
+}
+
+// Antwort speichern und anzeigen
+function respondToRequest(event, index) {
+    event.preventDefault();
+    const responseField = document.getElementById(`response-${index}`);
+    const responseText = responseField.value;
+
+    let requests = JSON.parse(localStorage.getItem("requests")) || [];
+    requests[index].responses.push(responseText);
+    localStorage.setItem("requests", JSON.stringify(requests));
+
+    responseField.value = "";  // Eingabefeld leeren
+    displayRequests();
 }
 
 // Filterfunktion
@@ -55,14 +80,15 @@ function filterRequests() {
     displayFiltered(filtered);
 }
 
+// Filter-Ergebnis anzeigen
 function displayFiltered(filteredRequests) {
     const list = document.getElementById("requestList");
     list.innerHTML = "";
 
-    filteredRequests.forEach(request => {
+    filteredRequests.forEach((request, index) => {
         list.innerHTML += `
             <div class="request-item">
-                <h3>${request.teamName} ( ${request.ageGroup} - ${request.skillLevel} )</h3>
+                <h3>${request.teamName} (${request.ageGroup} - ${request.skillLevel})</h3>
                 <p>Datum: ${request.matchDate}</p>
             </div>
         `;
