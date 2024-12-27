@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freundschaftsspiel Anfragen</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Freundschaftsspiel Anfragen</h1>
+        
+        <!-- Filter -->
+        <div class="filter-section">
+            <select id="ageGroup">
+                <option value="">Altersklasse wählen</option>
+                <option value="u10">U10</option>
+                <option value="u12">U12</option>
+                <option value="u14">U14</option>
+            </select>
+
+            <select id="skillLevel">
+                <option value="">Leistungsklasse wählen</option>
+                <option value="amateur">Amateur</option>
+                <option value="fortgeschritten">Fortgeschritten</option>
+                <option value="profi">Profi</option>
+            </select>
+
+            <input type="date" id="dateFilter">
+            <button onclick="filterRequests()">Filtern</button>
+        </div>
+
+        <!-- Anfrage erstellen -->
+        <div class="request-form">
+            <h2>Neue Anfrage erstellen</h2>
+            <form id="requestForm">
+                <input type="text" id="teamName" placeholder="Teamname" required>
+                <select id="newAgeGroup" required>
+                    <option value="u10">U10</option>
+                    <option value="u12">U12</option>
+                    <option value="u14">U14</option>
+                </select>
+                <select id="newSkillLevel" required>
+                    <option value="amateur">Amateur</option>
+                    <option value="fortgeschritten">Fortgeschritten</option>
+                </select>
+                <input type="date" id="matchDate" required>
+                <button type="submit">Anfrage stellen</button>
+            </form>
+        </div>
+
+        <!-- Liste der Anfragen -->
+        <div id="requestList">
+            <!-- Anfragen werden hier angezeigt -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
